@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <Header />
 
     <PathfinderConfig
@@ -15,9 +15,10 @@
       class="grid"
       :rows="rows"
       :columns="columns"
+      :selectedAlgorithm="selectedAlgorithm"
       v-model:start="start"
       v-model:end="end"
-      :selectedAlgorithm="selectedAlgorithm"
+      v-model:grid="grid"
     />
 
     <v-row>
@@ -51,7 +52,11 @@
               <v-icon size="large" icon="fa-solid fa-flag-checkered" />
             </div>
           </li>
-          <li>Click the Run button</li>
+          <li>
+            <div class="d-flex align-center mb-3">
+              <p class="mr-3">Click the Run button</p>
+            </div>
+          </li>
         </ol>
       </v-col>
     </v-row>
@@ -59,9 +64,10 @@
 </template>
 
 <script>
+import { dijkstra, findShortestPath } from '../constants/dijkstra'
 import Grid from './Grid.vue'
-import PathfinderConfig from './PathfinderConfig.vue'
 import Header from './Header.vue'
+import PathfinderConfig from './PathfinderConfig.vue'
 
 export default {
   name: 'Pathfinder',
@@ -76,22 +82,35 @@ export default {
       columns: 20,
       selectedAlgorithm: null,
       start: {
-        row: null,
-        column: null,
+        row: -1,
+        column: -1,
       },
       end: {
-        row: null,
-        column: null,
+        row: -1,
+        column: -1,
       },
+      grid: [],
     }
   },
   methods: {
     resetStartEnd() {
-      this.start = { row: null, column: null }
-      this.end = { row: null, column: null }
+      this.start = { row: -1, column: -1 }
+      this.end = { row: -1, column: -1 }
     },
     runSearch() {
-      // run the pathfinding algorithm here.
+      // run the path-finding algorithm here.
+      this.runDijkstra()
+    },
+    runDijkstra() {
+      const visitedSquaresInOrder = dijkstra(
+        this.grid,
+        this.startSquare,
+        this.endSquare,
+      )
+      console.log(visitedSquaresInOrder)
+
+      const orderedShortestPath = findShortestPath(this.endSquare)
+      console.log(orderedShortestPath)
     },
   },
   computed: {
@@ -103,6 +122,12 @@ export default {
         this.end.column &&
         this.selectedAlgorithm
       )
+    },
+    startSquare() {
+      return this.grid[this.start.row - 1][this.start.column - 1]
+    },
+    endSquare() {
+      return this.grid[this.end.row - 1][this.end.column - 1]
     },
   },
 }

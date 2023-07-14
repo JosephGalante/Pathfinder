@@ -1,18 +1,13 @@
 <template>
   <div
     class="square d-flex align-center justify-center"
+    :class="{ 'square-visited': isVisited }"
     @click="$emit('selectSquare', row, column)"
   >
     <v-icon
-      v-if="isStartSquare"
+      v-if="isStartSquare || isEndSquare"
       color="orange-darken-2"
-      icon="fa-regular fa-circle-play"
-      size="small"
-    />
-    <v-icon
-      v-if="isEndSquare"
-      color="orange-darken-2"
-      icon="fa-solid fa-flag-checkered"
+      :icon="squareIcon"
       size="small"
     />
   </div>
@@ -35,9 +30,15 @@ export default {
     },
     start: {
       type: Object,
+      required: true,
     },
     end: {
       type: Object,
+      required: true,
+    },
+    isVisited: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -46,6 +47,13 @@ export default {
     },
     isEndSquare() {
       return this.end.row === this.row && this.end.column === this.column
+    },
+    squareIcon() {
+      if (this.isStartSquare) {
+        return 'fa-regular fa-circle-play'
+      } else if (this.isEndSquare) {
+        return 'fa-solid fa-flag-checkered'
+      }
     },
   },
 }
@@ -58,10 +66,33 @@ export default {
   background-color: lightblue;
   border: 1px solid black;
   margin: 0;
+  transition: background-color 2s;
 }
 
 .square:hover {
   cursor: pointer;
   filter: brightness(0.8);
+}
+
+.square-visited {
+  animation: circleExpand 2s;
+  background-color: green;
+}
+
+@keyframes circleExpand {
+  0% {
+    border-radius: 75%;
+    transform: scale(0);
+  }
+  25% {
+    border-radius: 50%;
+  }
+  50% {
+    border-radius: 35%;
+  }
+  100% {
+    border-radius: 12%;
+    transform: scale(1);
+  }
 }
 </style>
