@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { pathAlgoValues, pathAlgorithms } from '../constants/algorithms'
+import { pathAlgoValues, pathAlgorithms } from '../constants/algorithmNames'
 
 export default {
   name: 'PathfinderConfig',
@@ -70,3 +70,4 @@ export default {
 </script>
 
 <style scoped></style>
+../constants/algorithmNames
