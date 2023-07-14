@@ -1,9 +1,21 @@
 <template>
   <div
-    class="square"
-    :class="squareType"
+    class="square d-flex align-center justify-center"
     @click="$emit('selectSquare', row, column)"
-  ></div>
+  >
+    <v-icon
+      v-if="isStartSquare"
+      color="orange-darken-2"
+      icon="fa-regular fa-circle-play"
+      size="small"
+    />
+    <v-icon
+      v-if="isEndSquare"
+      color="orange-darken-2"
+      icon="fa-solid fa-flag-checkered"
+      size="small"
+    />
+  </div>
 </template>
 
 <script>
@@ -29,14 +41,11 @@ export default {
     },
   },
   computed: {
-    squareType() {
-      if (this.start.row === this.row && this.start.column === this.column) {
-        return 'start'
-      } else if (this.end.row === this.row && this.end.column === this.column) {
-        return 'end'
-      } else {
-        return null
-      }
+    isStartSquare() {
+      return this.start.row === this.row && this.start.column === this.column
+    },
+    isEndSquare() {
+      return this.end.row === this.row && this.end.column === this.column
     },
   },
 }
@@ -44,8 +53,8 @@ export default {
 
 <style scoped>
 .square {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background-color: lightblue;
   border: 1px solid black;
   margin: 0;
@@ -54,13 +63,5 @@ export default {
 .square:hover {
   cursor: pointer;
   filter: brightness(0.8);
-}
-
-.start {
-  background-color: yellow;
-}
-
-.end {
-  background-color: green;
 }
 </style>
