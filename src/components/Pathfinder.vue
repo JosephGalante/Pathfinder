@@ -1,49 +1,45 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col>
-        <h1 class="d-flex justify-center">Pathfinder Algorithm App</h1>
-      </v-col>
-    </v-row>
+    <Header />
 
-    <v-row class="d-flex align-center">
-      <v-col>
-        <label for="alg">Graph Search Algorithm</label>
-        <v-select
-          label="Select"
-          id="alg"
-          :items="pathAlgorithms"
-          v-model="selectedAlgorithm"
+    <PathfinderConfig
+      :rows="rows"
+      :columns="columns"
+      :selectedAlgorithm="selectedAlgorithm"
+      v-model:rows="rows"
+      v-model:columns="columns"
+      v-model:selectedAlgorithm="selectedAlgorithm"
+    />
+
+    <Grid
+      :rows="rows"
+      :columns="columns"
+      v-model:start="start"
+      v-model:end="end"
+      :selectedAlgorithm="selectedAlgorithm"
+    />
+
+    <v-row>
+      <v-col class="d-flex justify-center">
+        <v-btn
+          class="mr-2"
+          variant="outlined"
+          color="error"
+          @click="resetStartEnd"
         >
-        </v-select>
-      </v-col>
-      <v-col>
-        <label for="height">Number of rows: {{ height }}</label>
-        <v-slider
-          id="height"
-          min="10"
-          max="100"
-          v-model="height"
-          step="1"
-          thumb-label
-        ></v-slider>
-      </v-col>
-      <v-col>
-        <label for="width">Number of columns: {{ width }}</label>
-        <v-slider
-          id="width"
-          min="10"
-          max="100"
-          v-model="width"
-          step="1"
-          thumb-label
-        ></v-slider>
+          Cancel
+        </v-btn>
+        <v-btn color="blue" @click="runSearch">Run</v-btn>
       </v-col>
     </v-row>
 
     <v-row>
-      <v-col>
-        <Grid :height="height" :width="width" />
+      <v-col class="d-flex justify-center">
+        <ol>
+          <li>Click a starting square</li>
+          <li>Click an end square</li>
+          <li>Click the Run button</li>
+        </ol>
       </v-col>
     </v-row>
   </v-container>
@@ -51,25 +47,41 @@
 
 <script>
 import Grid from './Grid.vue'
-import { pathAlgoValues, pathAlgorithms } from '../constants/algorithms'
+import PathfinderConfig from './PathfinderConfig.vue'
+import Header from './Header.vue'
 
 export default {
   name: 'Pathfinder',
   components: {
+    Header,
     Grid,
+    PathfinderConfig,
   },
   data() {
     return {
-      pathAlgorithms,
-      pathAlgoValues,
+      rows: 20,
+      columns: 20,
       selectedAlgorithm: null,
-      height: 20,
-      width: 20,
+      start: {
+        row: null,
+        column: null,
+      },
+      end: {
+        row: null,
+        column: null,
+      },
     }
+  },
+  methods: {
+    resetStartEnd() {
+      this.start = { row: null, column: null }
+      this.end = { row: null, column: null }
+    },
+    runSearch() {
+      // run the pathfinding algorithm here.
+    },
   },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
