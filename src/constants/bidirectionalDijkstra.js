@@ -127,11 +127,11 @@ export function findTheShortestPathFromBidirectional() {
   const nodesInShortestPathOrder2 = []
   let currNode = foundNode
   let currNode2 = lastNode
-  while (currNode !== null) {
+  while (currNode) {
     nodesInShortestPathOrder.unshift(currNode)
     currNode = currNode.previousNode
   }
-  while (currNode2 !== null) {
+  while (currNode2) {
     nodesInShortestPathOrder2.unshift(currNode2)
     currNode2 = currNode2.previousNode
   }

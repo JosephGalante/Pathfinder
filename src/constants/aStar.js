@@ -109,7 +109,7 @@ function manhattanDistance(nodeOne, nodeTwo) {
 export function findTheShortestPathFromAStar(finishNode) {
   const nodesInShortestPathOrder = []
   let currNode = finishNode
-  while (currNode !== null) {
+  while (currNode) {
     nodesInShortestPathOrder.unshift(currNode)
     currNode = currNode.previousNode
   }

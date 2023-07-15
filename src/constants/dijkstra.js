@@ -53,7 +53,7 @@ function findAllSquares(grid) {
 export function findShortestPath(finishSquare) {
   const squaresInShortestPathOrder = []
   let currSquare = finishSquare
-  while (currSquare !== null) {
+  while (currSquare) {
     squaresInShortestPathOrder.unshift(currSquare)
     currSquare = currSquare.previousSquare
   }
