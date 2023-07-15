@@ -4,6 +4,10 @@ export const pathAlgorithms = [
     value: 'dijkstra',
   },
   {
+    title: 'Bidirectional Dijkstra',
+    value: 'bidirectionalDijkstra',
+  },
+  {
     title: 'A*',
     value: 'aStar',
   },
@@ -20,4 +24,4 @@ export const pathAlgorithms = [
 export const pathAlgoValues = pathAlgorithms.reduce((acc, { value }) => {
   acc[value] = value
   return acc
-})
+}, {})

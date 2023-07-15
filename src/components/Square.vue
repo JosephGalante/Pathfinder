@@ -1,7 +1,8 @@
 <template>
   <div
+    :id="`square-${row-1}-${column-1}`"
     class="square d-flex align-center justify-center"
-    :class="{ 'square-visited': isVisited }"
+    :class="{ visited: isVisited, 'on-shortest-path': isOnShortestPath }"
     @click="$emit('selectSquare', row, column)"
   >
     <v-icon
@@ -40,6 +41,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isOnShortestPath: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isStartSquare() {
@@ -66,7 +71,6 @@ export default {
   background-color: lightblue;
   border: 1px solid black;
   margin: 0;
-  transition: background-color 2s;
 }
 
 .square:hover {
@@ -74,9 +78,14 @@ export default {
   filter: brightness(0.8);
 }
 
-.square-visited {
-  animation: circleExpand 2s;
+.visited {
+  animation: circleExpand 1s;
   background-color: green;
+}
+
+.on-shortest-path {
+  background-color: yellow;
+  transition: background-color 1s;
 }
 
 @keyframes circleExpand {

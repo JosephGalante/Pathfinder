@@ -19,6 +19,8 @@
       v-model:start="start"
       v-model:end="end"
       v-model:grid="grid"
+      :orderedVisitedSquares="orderedVisitedSquares"
+      :orderedShortestPath="orderedShortestPath"
     />
 
     <v-row>
@@ -65,9 +67,17 @@
 
 <script>
 import { dijkstra, findShortestPath } from '../constants/dijkstra'
+import { bfs, findTheShortestPathFromBFS } from '../constants/bfs'
+import { dfs } from '../constants/dfs'
+import { aStar, findTheShortestPathFromAStar } from '../constants/aStar'
+import {
+  bidirectionalDijkstra,
+  findTheShortestPathFromBidirectional,
+} from '../constants/bidirectionalDijkstra'
 import Grid from './Grid.vue'
 import Header from './Header.vue'
 import PathfinderConfig from './PathfinderConfig.vue'
+import { pathAlgoValues } from '../constants/algorithmNames'
 
 export default {
   name: 'Pathfinder',
@@ -90,27 +100,66 @@ export default {
         column: -1,
       },
       grid: [],
+      pathAlgoValues,
+      orderedVisitedSquares: [],
+      orderedShortestPath: [],
     }
   },
   methods: {
     resetStartEnd() {
       this.start = { row: -1, column: -1 }
       this.end = { row: -1, column: -1 }
+      this.selectedAlgorithm = null
+      this.orderedVisitedSquares = []
+      this.orderedShortestPath = []
+
+      for (let i = 0; i < this.grid.length; i++) {
+        for (let j = 0; j < this.grid[i].length; j++) {
+          this.grid[i][j].isVisited = false
+          this.grid[i][j].distance = Infinity
+          this.grid[i][j].isWall = false
+          this.grid[i][j].previousNode = null
+        }
+      }
+      let visitedNodes = document.querySelectorAll('.square')
+
+      visitedNodes.forEach((node) => {
+        node.classList.remove('visited')
+        node.classList.remove('on-shortest-path')
+      })
     },
     runSearch() {
-      // run the path-finding algorithm here.
-      this.runDijkstra()
+      switch (this.selectedAlgorithm) {
+        case this.pathAlgoValues.dijkstra:
+          this.runAlgorithm(dijkstra, findShortestPath)
+          break
+        case this.pathAlgoValues.aStar:
+          this.runAlgorithm(aStar, findTheShortestPathFromAStar)
+          break
+        case this.pathAlgoValues.bfs:
+          this.runAlgorithm(bfs, findTheShortestPathFromBFS)
+          break
+        case this.pathAlgoValues.dfs:
+          this.runAlgorithm(dfs, findShortestPath)
+          break
+        case this.pathAlgoValues.bidirectionalDijkstra:
+          this.runAlgorithm(
+            bidirectionalDijkstra,
+            findTheShortestPathFromBidirectional,
+          )
+          break
+        default:
+          break
+      }
     },
-    runDijkstra() {
-      const visitedSquaresInOrder = dijkstra(
+    runAlgorithm(algorithmFn, shortestPathFn) {
+      this.orderedVisitedSquares = algorithmFn(
         this.grid,
         this.startSquare,
         this.endSquare,
       )
-      console.log(visitedSquaresInOrder)
 
-      const orderedShortestPath = findShortestPath(this.endSquare)
-      console.log(orderedShortestPath)
+      this.orderedShortestPath = shortestPathFn(this.endSquare)
     },
   },
   computed: {
@@ -130,12 +179,12 @@ export default {
       return this.grid[this.end.row - 1][this.end.column - 1]
     },
   },
+  watch: {
+    animating() {
+      console.log('animating changed', this.animating)
+    },
+  },
 }
 </script>
 
-<style scoped>
-/* if the .grid overflows horizontally, make it wrap */
-.grid {
-  flex-wrap: wrap;
-}
-</style>
+<style scoped></style>

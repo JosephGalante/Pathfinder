@@ -13,7 +13,6 @@
         </div>
       </div>
     </v-col>
-    <v-btn>hi</v-btn>
   </v-row>
 </template>
 
@@ -51,6 +50,14 @@ export default {
     end: {
       type: Object,
     },
+    orderedVisitedSquares: {
+      type: Array,
+      required: true,
+    },
+    orderedShortestPath: {
+      type: Array,
+      required: true,
+    }
   },
   methods: {
     initializeGrid() {
@@ -87,9 +94,39 @@ export default {
         }
       }
     },
+    animateSquares() {
+      for (const [index, square] of this.orderedVisitedSquares.entries()) {
+        setTimeout(() => {
+          document
+            .getElementById(`square-${square.row}-${square.col}`)
+            .classList.add('visited')
+        }, 30 * index)
+      }
+
+      this.waitForAnimation()
+    },
+    waitForAnimation() {
+      setTimeout(() => {
+        this.animateShortestPath()
+      }, 30 * this.orderedVisitedSquares.length)
+    },
+    animateShortestPath() {
+      for (const [index, square] of this.orderedShortestPath.entries()) {
+        setTimeout(() => {
+          document
+            .getElementById(`square-${square.row}-${square.col}`)
+            .classList.add('on-shortest-path')
+        }, 30 * index)
+      }
+    },
   },
   mounted() {
     this.$emit('update:grid', this.initializeGrid())
+  },
+  watch: {
+    orderedVisitedSquares() {
+      this.animateSquares()
+    },
   },
 }
 </script>
