@@ -1,18 +1,16 @@
 <template>
   <v-container>
-    <Header />
-
-    <PathfinderConfig
-      :rows="rows"
-      :columns="columns"
+    <Header
+      @resetStartEnd="resetStartEnd"
+      @runSearch="runSearch"
+      :readyToRun="readyToRun"
       :selectedAlgorithm="selectedAlgorithm"
-      v-model:rows="rows"
-      v-model:columns="columns"
       v-model:selectedAlgorithm="selectedAlgorithm"
     />
 
+    <Legend />
+
     <Grid
-      class="grid"
       :rows="rows"
       :columns="columns"
       :selectedAlgorithm="selectedAlgorithm"
@@ -23,21 +21,7 @@
       :orderedShortestPath="orderedShortestPath"
     />
 
-    <v-row>
-      <v-col class="d-flex justify-center">
-        <v-btn
-          class="mr-2"
-          variant="outlined"
-          color="error"
-          @click="resetStartEnd"
-        >
-          Cancel
-        </v-btn>
-        <v-btn color="blue" @click="runSearch" :disabled="!readyToRun"
-          >Run</v-btn
-        >
-      </v-col>
-    </v-row>
+    <Contact />
   </v-container>
 </template>
 
@@ -51,8 +35,9 @@ import {
   findTheShortestPathFromBidirectional,
 } from '../constants/bidirectionalDijkstra'
 import Grid from './Grid.vue'
+import Legend from './Legend.vue'
 import Header from './Header.vue'
-import PathfinderConfig from './PathfinderConfig.vue'
+import Contact from './Contact.vue'
 import { pathAlgoValues } from '../constants/algorithmNames'
 import { findShortestPath } from '../constants/utilities'
 
@@ -61,7 +46,8 @@ export default {
   components: {
     Header,
     Grid,
-    PathfinderConfig,
+    Legend,
+    Contact,
   },
   data() {
     return {
@@ -146,7 +132,7 @@ export default {
         this.start.column &&
         this.end.row &&
         this.end.column &&
-        this.selectedAlgorithm
+        !!this.selectedAlgorithm
       )
     },
     startSquare() {

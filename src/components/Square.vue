@@ -7,8 +7,8 @@
   >
     <v-icon
       v-if="isStartSquare || isEndSquare"
-      color="orange-darken-2"
       :icon="squareIcon"
+      color="black"
       size="small"
     />
   </div>
@@ -68,7 +68,7 @@ export default {
 .square {
   width: 30px;
   height: 30px;
-  background-color: lightblue;
+  background-color: white;
   border: 1px solid black;
   margin: 0;
 }
@@ -92,16 +92,20 @@ export default {
   0% {
     border-radius: 75%;
     transform: scale(0);
+    background-color: #92ff6b;
   }
   25% {
     border-radius: 50%;
+    background-color: #58df26;
   }
   50% {
     border-radius: 35%;
+    background-color: #2b9e0f;
   }
   100% {
     border-radius: 12%;
     transform: scale(1);
+    background-color: #0c4e07;
   }
 }
 </style>
