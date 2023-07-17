@@ -7,7 +7,7 @@ export function aStar(grid, startNode, finishNode) {
   startNode.heuristic = 0
   startNode.totalDistance = 0
   openList.push(startNode)
-  while (openList.length != 0) {
+  while (openList.length !== 0) {
     let currentNode = findClosest(openList)
 
     if (currentNode === finishNode) {
@@ -48,7 +48,7 @@ function findClosest(openList) {
 function removeFromArray(node, list) {
   let newOpenList = []
   for (let i = 0; i < list.length; i++) {
-    if (!(node === list[i])) {
+    if (node !== list[i]) {
       newOpenList.push(list[i])
     }
   }
@@ -77,7 +77,7 @@ function updateNeighbors(node, grid, openList, finishNode, closedList) {
       if (newPath) {
         neighbor.heuristic = manhattanDistance(neighbor, finishNode)
         neighbor.totalDistance = neighbor.distance + neighbor.heuristic
-        neighbor.previousNode = node
+        neighbor.previousSquare = node
       }
     }
   }
@@ -88,17 +88,4 @@ function manhattanDistance(nodeOne, nodeTwo) {
   let y = Math.abs(nodeOne.col - nodeTwo.col)
 
   return x + y
-}
-
-export function findTheShortestPathFromAStar(finishNode) {
-  const nodesInShortestPathOrder = []
-  let currNode = finishNode
-  while (currNode) {
-    nodesInShortestPathOrder.unshift(currNode)
-    currNode = currNode.previousNode
-  }
-  if (nodesInShortestPathOrder.length < 1) {
-    return []
-  }
-  return nodesInShortestPathOrder
 }

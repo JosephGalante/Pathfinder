@@ -45,7 +45,7 @@
 import { dijkstra } from '../constants/dijkstra'
 import { bfs } from '../constants/bfs'
 import { dfs } from '../constants/dfs'
-import { aStar, findTheShortestPathFromAStar } from '../constants/aStar'
+import { aStar } from '../constants/aStar'
 import {
   bidirectionalDijkstra,
   findTheShortestPathFromBidirectional,
@@ -95,7 +95,7 @@ export default {
           this.grid[i][j].isVisited = false
           this.grid[i][j].distance = Infinity
           this.grid[i][j].isWall = false
-          this.grid[i][j].previousNode = null
+          this.grid[i][j].previousSquare = null
         }
       }
       let visitedNodes = document.querySelectorAll('.square')
@@ -111,7 +111,7 @@ export default {
           this.runAlgorithm(dijkstra, findShortestPath)
           break
         case this.pathAlgoValues.aStar:
-          this.runAlgorithm(aStar, findTheShortestPathFromAStar)
+          this.runAlgorithm(aStar, findShortestPath)
           break
         case this.pathAlgoValues.bfs:
           this.runAlgorithm(bfs, findShortestPath)
@@ -154,11 +154,6 @@ export default {
     },
     endSquare() {
       return this.grid[this.end.row - 1][this.end.column - 1]
-    },
-  },
-  watch: {
-    animating() {
-      console.log('animating changed', this.animating)
     },
   },
 }

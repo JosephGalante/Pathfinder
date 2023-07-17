@@ -25,7 +25,7 @@ function updateUnvisitedNeighbors(node, grid, queue) {
   const unvisitedNeighbors = getUnvisitedNeighbors(node, grid)
   for (let neighbor of unvisitedNeighbors) {
     neighbor.distance = node.distance + 1
-    neighbor.previousNode = node
+    neighbor.previousSquare = node
     queue.push(neighbor)
   }
 }

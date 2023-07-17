@@ -102,7 +102,7 @@ function updateUnvisitedNeighbors(
     ) {
       if (!neighbor.isVisited) {
         neighbor.distance = node.distance + 1
-        neighbor.previousNode = node
+        neighbor.previousSquare = node
         unvisitedNodes.push(neighbor)
       }
     }
@@ -116,11 +116,11 @@ export function findTheShortestPathFromBidirectional() {
   let currNode2 = lastNode
   while (currNode) {
     nodesInShortestPathOrder.unshift(currNode)
-    currNode = currNode.previousNode
+    currNode = currNode.previousSquare
   }
   while (currNode2) {
     nodesInShortestPathOrder2.unshift(currNode2)
-    currNode2 = currNode2.previousNode
+    currNode2 = currNode2.previousSquare
   }
   return nodesInShortestPathOrder.concat(nodesInShortestPathOrder2)
 }

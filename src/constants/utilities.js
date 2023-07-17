@@ -13,7 +13,7 @@ export function findShortestPath(finishNode) {
   let currNode = finishNode
   while (currNode) {
     nodesInShortestPathOrder.unshift(currNode)
-    currNode = currNode.previousNode
+    currNode = currNode.previousSquare
   }
   return nodesInShortestPathOrder
 }
