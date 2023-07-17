@@ -1,6 +1,6 @@
 <template>
   <div
-    :id="`square-${row-1}-${column-1}`"
+    :id="`square-${row - 1}-${column - 1}`"
     class="square d-flex align-center justify-center"
     :class="{ visited: isVisited, 'on-shortest-path': isOnShortestPath }"
     @click="$emit('selectSquare', row, column)"

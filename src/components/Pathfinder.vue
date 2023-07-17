@@ -38,36 +38,12 @@
         >
       </v-col>
     </v-row>
-
-    <v-row>
-      <v-col class="d-flex justify-center">
-        <ol>
-          <li>
-            <div class="d-flex align-center mb-3">
-              <p class="mr-3">Click a starting square</p>
-              <v-icon size="large" icon="fa-regular fa-circle-play" />
-            </div>
-          </li>
-          <li>
-            <div class="d-flex align-center mb-3">
-              <p class="mr-3">Click an end square</p>
-              <v-icon size="large" icon="fa-solid fa-flag-checkered" />
-            </div>
-          </li>
-          <li>
-            <div class="d-flex align-center mb-3">
-              <p class="mr-3">Click the Run button</p>
-            </div>
-          </li>
-        </ol>
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
 <script>
-import { dijkstra, findShortestPath } from '../constants/dijkstra'
-import { bfs, findTheShortestPathFromBFS } from '../constants/bfs'
+import { dijkstra } from '../constants/dijkstra'
+import { bfs } from '../constants/bfs'
 import { dfs } from '../constants/dfs'
 import { aStar, findTheShortestPathFromAStar } from '../constants/aStar'
 import {
@@ -78,6 +54,7 @@ import Grid from './Grid.vue'
 import Header from './Header.vue'
 import PathfinderConfig from './PathfinderConfig.vue'
 import { pathAlgoValues } from '../constants/algorithmNames'
+import { findShortestPath } from '../constants/utilities'
 
 export default {
   name: 'Pathfinder',
@@ -137,7 +114,7 @@ export default {
           this.runAlgorithm(aStar, findTheShortestPathFromAStar)
           break
         case this.pathAlgoValues.bfs:
-          this.runAlgorithm(bfs, findTheShortestPathFromBFS)
+          this.runAlgorithm(bfs, findShortestPath)
           break
         case this.pathAlgoValues.dfs:
           this.runAlgorithm(dfs, findShortestPath)

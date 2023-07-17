@@ -57,7 +57,7 @@ export default {
     orderedShortestPath: {
       type: Array,
       required: true,
-    }
+    },
   },
   methods: {
     initializeGrid() {
@@ -126,6 +126,12 @@ export default {
   watch: {
     orderedVisitedSquares() {
       this.animateSquares()
+    },
+    rows() {
+      this.$emit('update:grid', this.initializeGrid())
+    },
+    columns() {
+      this.$emit('update:grid', this.initializeGrid())
     },
   },
 }

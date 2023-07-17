@@ -1,3 +1,5 @@
+import { getUnvisitedNeighbors } from './utilities'
+
 export function aStar(grid, startNode, finishNode) {
   let openList = []
   let closedList = []
@@ -53,15 +55,8 @@ function removeFromArray(node, list) {
   return newOpenList
 }
 
-function updateNeighbors(
-  node,
-  grid,
-  openList,
-
-  finishNode,
-  closedList,
-) {
-  let neighbors = getNeighbors(node, grid)
+function updateNeighbors(node, grid, openList, finishNode, closedList) {
+  let neighbors = getUnvisitedNeighbors(node, grid)
   for (let neighbor of neighbors) {
     if (!closedList.includes(neighbor)) {
       let temp = node.distance + 1
@@ -86,17 +81,6 @@ function updateNeighbors(
       }
     }
   }
-}
-
-function getNeighbors(node, grid) {
-  const neighbors = []
-  const { col, row } = node
-  if (row > 0) neighbors.push(grid[row - 1][col])
-  if (col > 0) neighbors.push(grid[row][col - 1])
-  if (row < grid.length - 1) neighbors.push(grid[row + 1][col])
-  if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1])
-
-  return neighbors.filter((node) => !node.isVisited)
 }
 
 function manhattanDistance(nodeOne, nodeTwo) {
